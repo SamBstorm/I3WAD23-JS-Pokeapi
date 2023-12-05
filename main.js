@@ -12,7 +12,7 @@ const createListe = function(pokemonArray){
         li_pokemon.innerText = pokemon.name;
         li_pokemon.onclick = 
             function(event){
-                showPokemon(pokemon.name);
+                showPokemonAsync(pokemon.name);
             };
         ul_pokemon.appendChild(li_pokemon);
     }
@@ -123,3 +123,19 @@ const save_fav = function(pokemon_name_fr){
 }
 
 
+const showPokemonAsync = async function(pokemon_name){
+    let pokemon_name_fr;
+    let url_img;
+    
+    let response = await fetch(URL_API+"pokemon-species/"+pokemon_name);
+    let data = await response.json();
+    pokemon_name_fr = data.names[4].name;
+    
+    response = await fetch(URL_API+"pokemon/"+pokemon_name);
+    data = await response.json();
+    url_img = data.sprites.front_default;
+        
+    console.log(pokemon_name_fr);
+    console.log(url_img);
+    createProfile(pokemon_name_fr,url_img);
+}
